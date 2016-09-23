@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Rock Central</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.css') }}">
+    <link rel="stylesheet" type=text/css href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Rock+Salt" rel="stylesheet">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  </head>
+
+  <body>
+     <div>
+    <nav class="navbar navbar-default" style="background-color: black;">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+           <a class="navbar-brand" style="font-family: 'Rock Salt', cursive; color: red;" href="/">ROCK CENTRAL</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+          {% for category in categories %}
+            <li><a  href="{{url_for('show_category', category_name = category.name, sort_type = 'all')}}">{{category.name}}({{category.items_val}})</a></li>
+          {% endfor %}
+          </ul>
+          <form method = "post" class="navbar-form navbar-left">
+            <div class="form-group">
+              <input type="text" name = "search" class="form-control" placeholder="Search">
+            </div>
+            <button type="submit" class="btn btn-default">Submit</button>
+          </form>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/gdisconnect">Logout</a></li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+
+      <div class = "container">
+        <div class="dropdown">
+  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+    Sort by
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+    <li><a href="{{url_for('show_category', category_name = thiscategory.name, sort_type = 'price_asc')}}">Price: Low to High</a></li>
+    <li><a href="{{url_for('show_category', category_name = thiscategory.name, sort_type = 'price_desc')}}">Price: High to Low</a></li>
+  </ul>
+</div>
+       <div class ="title-text">
+        <p class="brand"> Let's Rock!</p>
+        <p class="tagline">We have everything
+        <br>
+              your band needs
+              <br>
+              to rock and roll! </p>
+
+        </div>
+
+
+<span style="float: right; font-size: 22px"><a href="{{url_for('new_item', category_name = thiscategory.name)}}">+Add new item</a></span>
+{% for item in items %}
+<div id = "item" class = "row">
+<div id = "item-row" class= col-md-12>
+<div class="product-cat"><img src="{{item.picture}}"></div>
+    <h3 style = "float: right;" class ="item-cat"><a href="{{url_for('show_item', category_name = item.category.name, item_name = item.name)}}" class ="item-cat">{{item.name}}</a></h3>
+    <h3 style ="float:right; clear: right;"  class ="item-cat">{{item.price}}</h3>
+    <h3 style ="float:right; clear: right;" class="item-cat" >
+    <a href="{{url_for('edit_item', category_name = item.category.name, item_name = item.name)}}">Edit</a> | <a href="{{url_for('delete_item', category_name = item.category.name, item_name = item.name)}}">Delete
+    </a></h3>
+
+</div>
+
+</div>
+<hr style="border-color: white;">
+{% endfor %}
+</div>
+<script type="text/javascript">
+  $('div.purple').toggleClass('purple');
+  $('p.brand').text("{{thiscategory.name}}");
+  {% if thiscategory.name == "Drumsets" %}
+  $('p.tagline').text("Lay down the beat with these awesome drumsets! We've got sets for beginners, experts and everyone in between all at affordable prices.")
+  {% elif thiscategory.name == "Guitars" %}
+  $('p.tagline').text("Electric and acoustic guitars from the major brands. Checkout our beginner kits to get you started in no time!")
+  {% elif thiscategory.name == "Accesories" %}
+  $('p.tagline').text("Play your best with these reliable accesories.")
+  {% elif thiscategory.name == "Amps" %}
+  $('p.tagline').text("Our amps are selected for their incredible sound quality and affordability. Suitable for both practice and gigs, these amps are sure to make your band sound its best.")
+  {% elif thiscategory.name == "Basses" %}
+  $('p.tagline').text("Get 'em in the groove with these great bass guitars.")
+  {% elif thiscategory.name == "Keyboards" %}
+  $('p.tagline').text("A variety of keyboards for whatever sound you need.")
+  {% endif %}
+
+  $('title').text("{{thiscategory.name}}")
+</script>
+ </body>
+</html>
