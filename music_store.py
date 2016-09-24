@@ -26,6 +26,26 @@ Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
+#JSON for main, category, and item pages
+
+@app.route('/JSON')
+@app.route('/main/JSON')
+def show_mainJSON():
+    categories = session.query(Category).order_by(Category.name).all()
+    return jsonify(categories=[c.serialize for c in categories])
+
+@app.route('/<string:category_name>/JSON')
+def show_categoryJSON(category_name):
+    category = session.query(Category).filter_by(name=category_name).one()
+    items = session.query(Item).filter_by(category_id = category.id).all()
+    return jsonify(items = [i.serialize for i in items])
+
+@app.route('/<string:category_name>/<string:item_name>/JSON')
+def show_itemJSON(category_name, item_name):
+    item = session.query(Item).filter_by(name= item_name).one()
+    return jsonify(item = item.serialize)
+
+
 
 # Create anti-forgery state token
 @app.route('/login')
@@ -116,7 +136,7 @@ def gconnect():
     if not user_id:
         user_id = createUser(login_session)
     login_session['user_id'] = user_id
-    flash("you are now logged in as %s" % login_session['username'])
+    flash("You are now logged in as %s" % login_session['username'])
     print "done!"
     output = "Welcome!"
     return output
@@ -177,6 +197,7 @@ def gdisconnect():
         del login_session['picture']
         response = make_response(json.dumps('Successfully disconnected.'), 200)
         response.headers['Content-Type'] = 'application/json'
+        flash("You have been logged out")
         return redirect(url_for('show_main'))
 # Show main page
 @app.route('/', methods=['GET', 'POST'])
@@ -245,7 +266,7 @@ def show_category(category_name, sort_type):
         else:
             if 'username' not in login_session:
                 return render_template('publiccategory.html', items = items,
-            thiscategory = thiscategory, categories = categories)
+                thiscategory = thiscategory, categories = categories)
             return render_template('category.html', items = items,
             thiscategory = thiscategory, categories = categories)
 
@@ -271,15 +292,18 @@ def show_item(category_name, item_name):
 @app.route('/<string:category_name>/new', methods=['GET', 'POST'])
 def new_item(category_name):
     if 'username' not in login_session:
-        return redirect('/login')
+        flash("Please login to make a new item")
+        return redirect('/')
     categories = session.query(Category).order_by(Category.name).all()
     category = session.query(Category).filter_by(name = category_name).one()
     if request.method == 'POST':
         item = Item(name=request.form['name'], price = request.form['price'],
         description = request.form['description'], picture = request.form['picture'],
         category = category, user_id = login_session['user_id'])
+        flash('%s has been added' % item.name)
         session.add(item)
         category.items_val += 1
+
         session.add(category)
         session.commit()
         return redirect(url_for('show_category', item_name = request.form['name'],
@@ -295,7 +319,8 @@ def edit_item(category_name, item_name):
     item = session.query(Item).filter_by(name = item_name).one()
     categories = session.query(Category).order_by(Category.name).all()
     if item.user_id != login_session['user_id']:
-        return redirect('/')
+        flash("You may only edit items you have created")
+        return redirect(url_for('show_category', item_name = item_name, category_name = category_name, sort_type = 'all'))
     if request.method == 'POST':
         if request.form['name']:
             item.name = request.form['name']
@@ -305,6 +330,7 @@ def edit_item(category_name, item_name):
             item.price = request.form['price']
         if request.form['picture']:
             item.picture = request.form['picture']
+        flash('%s has been edited' % item.name)
         session.add(item)
         session.commit()
         return redirect(url_for('show_category', item_name = item_name, category_name = category_name, sort_type = 'all'))
@@ -315,12 +341,14 @@ def edit_item(category_name, item_name):
 # Delete item
 @app.route('/<string:category_name>/<string:item_name>/delete', methods=['GET', 'POST'])
 def delete_item(category_name, item_name):
-    item = session.query(Item).filter_by(name = item_name).one()
+    item = session.query(Item).filter_by(name = item_name).first()
     categories = session.query(Category).order_by(Category.name).all()
     category = session.query(Category).filter_by(name = category_name).one()
     if item.user_id != login_session['user_id']:
-        return redirect('/')
+        flash("You may only delete items you have created")
+        return redirect(url_for('show_category', item_name = item_name, category_name = category_name, sort_type = 'all'))
     if request.method == 'POST':
+        flash('%s has been deleted' % item.name)
         category.items_val -= 1
         session.add(category)
         session.delete(item)
@@ -365,11 +393,6 @@ def searchresult(search, sort_type):
             return render_template('publicsearchresults.html', items = items,
             search_count = search_count, search = search, categories = categories)
         return render_template('searchresults.html', items = items, categories = categories, search_count = search_count, search = search)
-
-
-
-
-
 
 
 

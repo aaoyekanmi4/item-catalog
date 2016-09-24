@@ -9,11 +9,11 @@ a {
   color: white;
 }
 
-
 .description {
   float: right;
   color: white;
  }
+
 .item-name {
     font-size: 16px;
     color: white;
@@ -34,7 +34,9 @@ body {
 .cat-link {
 text-align: right;
 color: white;
-padding-bottom: 0px;}
+padding-bottom: 0px;
+}
+
 .brand {
     font-family: 'Rock Salt', cursive; color: red;
     padding-left: 90px;
@@ -55,7 +57,7 @@ padding-bottom: 0px;}
 }
 
 .title-text {
-    padding-top: 30px;
+    padding-top: 45px;
 }
 
 #items{
@@ -81,7 +83,14 @@ padding-bottom: 0px;}
     height: 160px;
     float: left;
 }
+
+ul {
+    padding: 0;
+    list-style-type: none;
+}
+
 .purple {
+      margin-top: 0px;
 
       position: absolute;
 
@@ -107,3 +116,10 @@ padding-bottom: 0px;}
       background: black;
 
     }
+
+
+#close:hover {
+  transform: scale(1.1);
+  cursor: pointer;
+}
+
