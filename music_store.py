@@ -14,6 +14,7 @@ import requests
 from werkzeug.utils import secure_filename
 from flask import send_from_directory
 import os
+import re
 
 app = Flask(__name__)
 
@@ -29,6 +30,9 @@ CLIENT_ID = json.loads(
     open('client_secrets.json', 'r').read())['web']['client_id']
 APPLICATION_NAME = "catalog app"
 
+PRICE_RE = re.compile(r"^\d{0,8}(\.\d{1,4})?$")
+def valid_price(price):
+    return PRICE_RE.match(price)
 
 # Connect to Database and create database session
 engine = create_engine('sqlite:///musicstore.db')
@@ -38,9 +42,13 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
 
+
+
+
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+
 def upload_file():
     file = request.files['file']
     if file and allowed_file(file.filename):
@@ -324,11 +332,13 @@ def new_item(category_name):
     category = session.query(Category).filter_by(name = category_name).one()
     if request.method == 'POST':
         filename = upload_file()
-        print filename
-        print "hurray"
-        item = Item(name=request.form['name'], price = request.form['price'],
-        description = request.form['description'], picture = filename,
-        category = category, user_id = login_session['user_id'])
+        price = request.form['price']
+        if valid_price(price):
+            new_price = "$" + price
+        if new_price and request.form['name'] and request.form['description']:
+            item = Item(name=request.form['name'], price = new_price,
+            description = request.form['description'], picture = filename,
+            category = category, user_id = login_session['user_id'])
         flash('%s has been added' % item.name)
         session.add(item)
         category.items_val += 1
