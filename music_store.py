@@ -11,8 +11,19 @@ import httplib2
 import json
 from flask import make_response
 import requests
+from werkzeug.utils import secure_filename
+from flask import send_from_directory
+import os
 
 app = Flask(__name__)
+
+APP_ROOT = os.path.dirname(os.path.abspath(__file__))
+UPLOAD_FOLDER = os.path.join(APP_ROOT, 'static/images')
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif', 'svg'])
+
+
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 CLIENT_ID = json.loads(
     open('client_secrets.json', 'r').read())['web']['client_id']
@@ -26,8 +37,23 @@ Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
-#JSON for main, category, and item pages
 
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+def upload_file():
+    file = request.files['file']
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        return filename
+
+def uploaded_file(filename):
+
+    return send_from_directory(app.config['UPLOAD_FOLDER'],
+                               filename)
+
+#JSON for main, category, and item pages
 @app.route('/JSON')
 @app.route('/main/JSON')
 def show_mainJSON():
@@ -297,8 +323,11 @@ def new_item(category_name):
     categories = session.query(Category).order_by(Category.name).all()
     category = session.query(Category).filter_by(name = category_name).one()
     if request.method == 'POST':
+        filename = upload_file()
+        print filename
+        print "hurray"
         item = Item(name=request.form['name'], price = request.form['price'],
-        description = request.form['description'], picture = request.form['picture'],
+        description = request.form['description'], picture = filename,
         category = category, user_id = login_session['user_id'])
         flash('%s has been added' % item.name)
         session.add(item)
@@ -402,3 +431,4 @@ if __name__ == '__main__':
     app.secret_key = 'super_secret_key'
     app.debug = True
     app.run(host='0.0.0.0', port=5000)
+
