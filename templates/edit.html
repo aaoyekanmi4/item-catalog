@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.css') }}">
     <link rel="stylesheet" type=text/css href="{{ url_for('static', filename='style.css') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Rock+Salt" rel="stylesheet">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   </head>
@@ -44,6 +43,21 @@
       </div><!-- /.container-fluid -->
     </nav>
     </div>
+
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+
+  <div class = 'flash' style="color: black; font-size: 25px; height: 5%; width: 80%; margin: 0 auto; background-color: white; padding-top: 0px; padding-bottom: 10px;">
+        <ul>
+        {% for message in messages %}
+
+            <li style="padding-top: 10px; padding-left:30px;"> <strong > {{ message }}<i id ="close" style="padding-top: 5px; float: right; padding-right:30px;" class="fa fa-times" aria-hidden="true"></i> </strong> </li>
+        {% endfor %}
+        </ul>
+        </div>
+        </div>
+        {% endif %}
+    {% endwith %}
     <div class="container">
     <div class="row">
     <div class="col-md-6">

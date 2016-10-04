@@ -335,10 +335,16 @@ def new_item(category_name):
         price = request.form['price']
         if valid_price(price):
             new_price = "$" + price
-        if new_price and request.form['name'] and request.form['description']:
+        else:
+            flash("That's not a valid price")
+            return render_template('new.html', categories= categories)
+        if request.form['price'] and request.form['name'] and request.form['description']:
             item = Item(name=request.form['name'], price = new_price,
             description = request.form['description'], picture = filename,
             category = category, user_id = login_session['user_id'])
+        else:
+            flash("Please fill out the required fields.")
+            return render_template('new.html', categories= categories)
         flash('%s has been added' % item.name)
         session.add(item)
         category.items_val += 1
@@ -361,18 +367,26 @@ def edit_item(category_name, item_name):
         flash("You may only edit items you have created")
         return redirect(url_for('show_category', item_name = item_name, category_name = category_name, sort_type = 'all'))
     if request.method == 'POST':
+        filename = upload_file()
         if request.form['name']:
             item.name = request.form['name']
         if request.form['description']:
             item.description = request.form['description']
-        if request.form['price']:
+        if request.form['price'] and valid_price(request.form['price']):
             item.price = request.form['price']
-        if request.form['picture']:
-            item.picture = request.form['picture']
-        flash('%s has been edited' % item.name)
-        session.add(item)
-        session.commit()
-        return redirect(url_for('show_category', item_name = item_name, category_name = category_name, sort_type = 'all'))
+        else:
+            flash("That's not a valid price")
+            return render_template('edit.html', item = item, categories = categories)
+        if filename:
+            item.picture = filename
+        if request.form['name'] and request.form['description'] and valid_price(request.form['price']):
+            flash('%s has been edited' % item.name)
+            session.add(item)
+            session.commit()
+            return redirect(url_for('show_category', item_name = item_name, category_name = category_name, sort_type = 'all'))
+        else:
+            flash("Please fill out the required fields.")
+            return render_template('edit.html', item = item, categories = categories)
     else:
         return render_template('edit.html', item = item, categories = categories)
 

@@ -9,9 +9,9 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.css') }}">
     <link rel="stylesheet" type=text/css href="{{ url_for('static', filename='style.css') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Rock+Salt" rel="stylesheet">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://use.fontawesome.com/6791ba42d9.js"></script>
   </head>
 
   <body>
@@ -44,14 +44,30 @@
       </div><!-- /.container-fluid -->
     </nav>
     </div>
+
+        {% with messages = get_flashed_messages() %}
+      {% if messages %}
+
+  <div class = 'flash' style="color: black; font-size: 25px; height: 5%; width: 80%; margin: 0 auto; background-color: white; padding-top: 0px; padding-bottom: 10px;">
+        <ul>
+        {% for message in messages %}
+
+            <li style="padding-top: 10px; padding-left:30px;"> <strong > {{ message }}<i id ="close" style="padding-top: 5px; float: right; padding-right:30px;" class="fa fa-times" aria-hidden="true"></i> </strong> </li>
+        {% endfor %}
+        </ul>
+        </div>
+        </div>
+        {% endif %}
+    {% endwith %}
+
     <div class="container">
     <div class="row">
     <div class="col-md-6">
     <h1 style="color: white;">New Item</h1>
     <form method=post enctype=multipart/form-data>
-
+    <p style="color: white; font-size:18px">* Required Fields</p>
     <p style="color: white; font-size:18px">
-              Name:
+             <span style="color: white; font-size:18px">*</span> Name:
             </p>
 
             <input style="width: 50%" type="text" name="name">
@@ -60,7 +76,7 @@
   <br>
 
       <p style="color: white; font-size:18px">
-              Price:
+             <span style="color: white; font-size:18px">*</span>  Price:
             </p>
 
             <span style="color: white; font-size:18px">$</span><input style="width: 50%" type="text" name="price">
@@ -73,13 +89,14 @@
 
   <br><br><br>
 
-            <p style="color: white; font-size:18px">
-              Description:
+             <span style="color: white; font-size:18px; float:right;">*</span><p style="color: white; font-size:18px">
+             <span style="color: white; font-size:18px">*</span> Description:
             </p>
 
-            <textarea name="description" style="width: 100%; height: 150px;"></textarea>
+           <textarea name="description" style="width: 100%; height: 150px;"></textarea>
 
             <br><br>
+
             <input type="submit" style="margin-left: auto;">
 
 
@@ -89,6 +106,12 @@
     </div>
     </div>
 
+<script type="text/javascript">
+$("#close").click(function(){
+  $(".flash").remove()
 
+
+});
+</script>
     </body>
     </html>
