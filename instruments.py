@@ -28,7 +28,7 @@ session.add(category1)
 session.commit()
 
 guitar1 = Item(name="Rogue RA-090 Dreadnought Acoustic Guitar Natural",
-price="$59.99", kind ="acoustic", description="""From Rogue comes this amazing
+price="59.99", kind ="acoustic", description="""From Rogue comes this amazing
 deal in the RA-90 dreadnought acoustic guitar.
 The Rogue guitar is an ideal instrument for the beginner, or young musician.
 The body depth and width bring out balanced tone and plenty of projection to
@@ -44,7 +44,7 @@ session.commit()
 
 guitar2 = Item(
 name="Fender Acoustic Guitar CD-60 - Black - Dreadnought",
-price="$229.99", kind="acoustic", description="""One of our best-selling
+price="229.99", kind="acoustic", description="""One of our best-selling
 acoustic guitars is now available with the sweet mellow tone of an all-mahogany
 body. Recently upgraded features include a new black pickguard, mother-of-pearl
 acrylic rosette design, new compensated bridge design, white bridge pins with
@@ -57,7 +57,7 @@ session.add(guitar2)
 session.commit()
 
 guitar3 = Item(name="Yamaha CG122MCH Solid Cedar Top Classical Guitar",
-price="$219.99 ", kind="classical",
+price="219.99 ", kind="classical",
 description="""Drawing upon the vast knowledge and techniques of our master
 craftsmen, the CG series nylon string guitars were developed to deliver
 top-level sound quality, performance, and playability at a reasonable price.
@@ -71,7 +71,7 @@ session.add(guitar3)
 session.commit()
 
 guitar4 = Item(name="Student Starter Classical Guitar for Beginner",
-price="$59.99 ", kind="classical", description="""
+price="59.99 ", kind="classical", description="""
 ADM guitars are a prefered choice for music educators and students worldwide.
 Sound:With spruce top and laminated basswood back, the guitar produces sound
 hat is clear and not distorted.
@@ -87,7 +87,7 @@ session.add(guitar4)
 session.commit()
 
 guitar5 = Item(name="Epiphone Les Paul SPECIAL-II Electric Guitar",
-price="$129.00", kind="electric", description="""It gives you all the essential
+price="129.00", kind="electric", description="""It gives you all the essential
 elements of a Les Paul. Made with a mahogany body, bolt-on mahogany neck,
 smooth 22-fret rosewood fingerboard, this baby is every bit as handsome as its
 uptown cousins. Features 700T/650R open-coil humbucking pickups that deliver
@@ -101,7 +101,7 @@ session.add(guitar5)
 session.commit()
 
 guitar6 = Item(name="Ibanez Artcore AF55 Hollow-Body Electric Guitar",
-price="$329.99", kind="electric", description="""The bound, all-maple full
+price="329.99", kind="electric", description="""The bound, all-maple full
 hollowbody provides tight resonance without feedback, perfect for that muted
 jazz tone and fully flexible for everything from alt rock to pounding punk.
 The mahogany set neck with bound rosewood fretboard is a delight to the digits.
@@ -116,7 +116,7 @@ session.commit()
 
 
 guitar7 = Item(name="Fender Standard Stratocaster Plus",
-price="$599.99", kind="electric", description="""The Standard Stratocaster Plus
+price="599.99", kind="electric", description="""The Standard Stratocaster Plus
 Top delivers famous Fender tone and classic style,
 with the added elegance of a flame maple top on the alder body.
 Other features include three single coil pickups, tinted maple neck with modern
@@ -140,7 +140,7 @@ session.add(category2)
 session.commit()
 
 bass1 = Item(name="Ibanez GSR200BWNF 4-String Bass Guitar",
-price="$199.99", kind="electric", description="""A guitar doesn't have to cost
+price="199.99", kind="electric", description="""A guitar doesn't have to cost
 a bundle to sound good. The GIO series was developed for players who want
 Ibanez quality in a more affordable package. Not only do they look and
 play better than everything else in their price range, but their rigorous
@@ -153,7 +153,7 @@ session.add(bass1)
 session.commit()
 
 bass2 = Item(name="Black Full Size Electric Bass Guitar",
-price="$79.95 ", kind="electric",
+price="79.95 ", kind="electric",
 description="""Davison Guitars is known for providing exceptional value in
 quality instruments at affordable prices. This full size bass is the perfect
 instrument for anyone looking to add a bass to their collection and its Music
@@ -166,7 +166,7 @@ session.add(bass2)
 session.commit()
 
 
-bass3 = Item(name="Ibanez PCBE12MHOPN ", price="$249.99 ", kind="acoustic",
+bass3 = Item(name="Ibanez PCBE12MHOPN ", price="249.99 ", kind="acoustic",
 description="""With tone, style, playability at an incredible value, Ibanez
 acoustic basses are creatively inspiring tools designed to thrive
 in wide variety of musical situations.""", picture = "bass3.jpg",
@@ -176,6 +176,18 @@ session.add(category2)
 session.add(bass3)
 session.commit()
 
+bass4 = Item(name="Fender '70s Jazz Bass Guitar, Rosewood Fingerboard - 3-Color Sunburst", price ="849.99",
+kind="electric", description="""Fender's 70s Jazz Bass captures the essence of the decade with striking
+looks and bright, full sound. That decade saw the bridge pickup placed closer to the bridge, creating a brighter, more cutting tone,
+and the addition of neck binding and block fretboard inlays. Features include
+ultra-slim neck with bullet truss rod nut, vintage-style alnico
+magnet Jazz Bass single-coil pickups, and vintage-style bridge.""", picture="jazzbass.jpg",
+user_id =1, category = category2)
+
+category2.items_val += 1
+session.add(category2)
+session.add(bass4)
+session.commit()
 
 #Keyboards
 category3 = Category(name = "Keyboards")
@@ -185,7 +197,7 @@ session.add(category3)
 session.commit()
 
 keyboard1 = Item(name="Williams Legato 88-Key Digital Piano",
-price="$199.99 ", description="""Williams Legato is an affordable digital piano
+price="199.99 ", description="""Williams Legato is an affordable digital piano
 with 88 semi-weighted keys, five great sounds (piano, electric piano, organ,
 synth, and bass) and built-in speakers. It also features split/layer function
 (to combine sounds) and a built-in metronome. This ultra-portable piano is
@@ -198,7 +210,7 @@ session.add(keyboard1)
 session.commit()
 
 keyboard2 = Item(name="RockJam 54-Key Portable Electronic Keyboard",
-price="$59.99", description="""The Rock Jam RJ-654 54-Key Digital Piano
+price="59.99", description="""The Rock Jam RJ-654 54-Key Digital Piano
 Keyboard is perfect for aspiring pianists of all ages.
 This compact, portable, and high quality keyboard has built-in stereo speakers
 and a large, easy-to-read LCD screen, which serves as a great teaching tool.
@@ -210,7 +222,7 @@ session.add(keyboard2)
 session.commit()
 
 keyboard3 = Item(name="Hamzer 61 Key Electronic Music Electric Keyboard",
-price="$79.99", description="""This is a beginner to intermediate level,
+price="79.99", description="""This is a beginner to intermediate level,
 multi-function, 61 standard piano-key electronic keyboard. This premium musical
 instrument by Hamzer is brand new and includes everything needed to play
 right out of the box.""", picture = "keyboard3.jpg", user_id = 1, category = category3)
@@ -229,7 +241,7 @@ session.commit()
 
 
 drum1 = Item(name="Gammon Percussion Full Size Complete Adult 5 Piece Drum Set",
-price="$249.95", description="""There are lots of reasons this drum set has been
+price="249.95", description="""There are lots of reasons this drum set has been
 the BEST SELLER for years! The Gammon Battle Series is the perfect entry level
 drum set at the lowest price ever for a complete, adult/full size drum set
 complete with all cymbals, stands, hardware, stool heads and sticks! This Brand
@@ -241,7 +253,7 @@ session.add(drum1)
 session.commit()
 
 drum2 = Item(name="Mendini by Cecilio 13 Inch 3-Piece Junior Drum Set",
-price="$89.99", description="""This is a great drum set for the aspiring
+price="89.99", description="""This is a great drum set for the aspiring
 drummer. Smaller sized genuine hard wood shells with triple flanged hoops make
 this the perfect first set for the younger player.
 It includes everything needed to get off to a great start.
@@ -255,7 +267,7 @@ session.add(drum2)
 session.commit()
 
 drum3 = Item(name="Mendini MJDS-5-BK Complete 16-Inch 5-Piece Junior Drum Set",
-price="$156.99", description="""This Mendini by Cecilio 5-Piece Junior Drum Set
+price="156.99", description="""This Mendini by Cecilio 5-Piece Junior Drum Set
 with Cymbals is a fully functional drum set designed specifically
 for beginner drummers. This set has everything you need to get set up and
 playing in no time.  It is a perfect gift for the young drummer who wants the
@@ -275,7 +287,7 @@ session.add(category5)
 session.commit()
 
 amp1 = Item(name="Fender Frontman 10G Electric Guitar Amplifier",
-price="$59.99", description="""Our Frontman amps deliver quality tone at a
+price="59.99", description="""Our Frontman amps deliver quality tone at a
 great price, with custom-voiced built-in overdrive for great tone and the
 unmistakable Fender Blackface look. The 10-watt Frontman 10G features a 6-inch
 Special Design speaker and a selectable gain control that can rock guitar tones
@@ -289,7 +301,7 @@ session.add(amp1)
 session.commit()
 
 amp2 = Item(name="Marshall Code 25 - 25W 1x10 Digital Combo Amp",
-price="$199.99", description="""The Marshall CODE range combines the Marshall
+price="199.99", description="""The Marshall CODE range combines the Marshall
 legacy with state of the art technology, culminating in their most versatile and
 impressive digital product ever. The range offers a choice of digital amp models,
 power amps, cabinet simulations, FX, and more allowing you to dial in every
@@ -300,7 +312,7 @@ session.add(amp2)
 session.commit()
 
 amp3 = Item(name="Fender Champion 20 - 20-Watt Electric Guitar Amplifier",
-price="$99.99", description="""Compact, easy to use and versatile enough for any
+price="99.99", description="""Compact, easy to use and versatile enough for any
 style of guitar playing, the 20-watt Champion 20 is an ideal choice for your
 first practice amp.""", picture = "amp3.jpg", user_id="1", category=category5)
 category5.items_val += 1
@@ -319,7 +331,7 @@ session.add(category6)
 session.commit()
 
 acc1 = Item(name="KLIQ AirCell Guitar Strap for Bass & Electric Guitar",
-price="$34.99", description="""Guitar and bass players familiar with that
+price="34.99", description="""Guitar and bass players familiar with that
 end-of-the-gig tight shoulder caused by conventional straps can now find relief
  with the KLIQ AirCell Guitar Strap--the only guitar strap to utilize patented
  air cell core technology for increased comfort and strength. Made from heavy-duty
@@ -334,7 +346,7 @@ session.add(acc1)
 session.commit()
 
 acc2 = Item(name="String Swing CC01KOAK Hardwood Home & Studio Guitar Hanger",
-price="$10.99", description="""The String Swing Guitar Hanger features exclusive
+price="10.99", description="""The String Swing Guitar Hanger features exclusive
 tubing that will not mark the finish on your instrument - Guaranteed!
 Its hardwood construction looks fantastic and is built to last. The yoke pivots
 to hold any type of headstock and is is adjustable to any width. This hanger

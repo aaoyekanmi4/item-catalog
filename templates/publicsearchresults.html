@@ -71,7 +71,7 @@
 <div id = "item-row" class= col-md-12>
 <div class="product-cat"><img src="/static/images/{{item.picture}}"></div>
     <h3 style = "float: right;" class ="item-cat"><a href="{{url_for('show_item', category_name = item.category.name, item_name = item.name)}}" class ="item-cat">{{item.name}}</a></h3>
-    <h3 style ="float:right; clear: right;"  class ="item-cat">{{item.price}}</h3>
+    <h3 style ="float:right; clear: right;"  class ="item-cat">$ {{item.price}}</h3>
 </div>
 
 </div>
