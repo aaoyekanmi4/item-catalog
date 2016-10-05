@@ -368,17 +368,24 @@ def edit_item(category_name, item_name):
         return redirect(url_for('show_category', item_name = item_name, category_name = category_name, sort_type = 'all'))
     if request.method == 'POST':
         filename = upload_file()
+<<<<<<< HEAD
+=======
+        item.picture = filename
+>>>>>>> 0078bd2... fixed problem with edit
         if request.form['name']:
             item.name = request.form['name']
         if request.form['description']:
             item.description = request.form['description']
         if request.form['price']:
             item.price = request.form['price']
+<<<<<<< HEAD
         else:
             flash("That's not a valid price")
             return render_template('edit.html', item = item, categories = categories)
         if filename:
             item.picture = filename
+=======
+>>>>>>> 0078bd2... fixed problem with edit
         flash('%s has been edited' % item.name)
         session.add(item)
         session.commit()
