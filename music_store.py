@@ -372,21 +372,20 @@ def edit_item(category_name, item_name):
             item.name = request.form['name']
         if request.form['description']:
             item.description = request.form['description']
-        if request.form['price'] and valid_price(request.form['price']):
+        if request.form['price']:
             item.price = request.form['price']
         else:
             flash("That's not a valid price")
             return render_template('edit.html', item = item, categories = categories)
         if filename:
             item.picture = filename
-        if request.form['name'] and request.form['description'] and valid_price(request.form['price']):
-            flash('%s has been edited' % item.name)
-            session.add(item)
-            session.commit()
-            return redirect(url_for('show_category', item_name = item_name, category_name = category_name, sort_type = 'all'))
-        else:
-            flash("Please fill out the required fields.")
-            return render_template('edit.html', item = item, categories = categories)
+        flash('%s has been edited' % item.name)
+        session.add(item)
+        session.commit()
+        return redirect(url_for('show_category', item_name = item_name, category_name = category_name, sort_type = 'all'))
+        # else:
+        #     flash("Please fill out the required fields.")
+        #     return render_template('edit.html', item = item, categories = categories)
     else:
         return render_template('edit.html', item = item, categories = categories)
 
