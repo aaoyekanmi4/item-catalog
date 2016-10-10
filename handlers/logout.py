@@ -17,8 +17,8 @@ from oauth2client.client import flow_from_clientsecrets
 from oauth2client.client import FlowExchangeError
 
 from werkzeug.utils import secure_filename
-from catalog_setup import Base, Category, Item, User
-engine = create_engine('sqlite:///musicstore.db')
+from model import Base, Category, Item, User
+engine = create_engine('sqlite:///model/musicstore.db')
 Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)

@@ -17,10 +17,10 @@ from oauth2client.client import flow_from_clientsecrets
 from oauth2client.client import FlowExchangeError
 
 from werkzeug.utils import secure_filename
-from catalog_setup import Base, Category, Item, User
+from model import Base, Category, Item, User
 
 
-engine = create_engine('sqlite:///musicstore.db')
+engine = create_engine('sqlite:///model/musicstore.db')
 Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
@@ -52,7 +52,7 @@ app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # Delete item
-#@app.route('/<string:category_name>/<string:item_name>/delete', methods=['GET', 'POST'])
+
 def delete_item(category_name, item_name):
     item = session.query(Item).filter_by(name = item_name).first()
     categories = session.query(Category).order_by(Category.name).all()
@@ -70,4 +70,5 @@ def delete_item(category_name, item_name):
         session.commit()
         return redirect(url_for('show_category', item_name = item_name, category_name = category_name, sort_type = 'all'))
     else:
-        return render_template('delete.html', item = item, categories = categories)
+        return render_template('delete.html', item = item, categories = categories,
+            status="Logout", loginlink="/gdisconnect")

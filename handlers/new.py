@@ -17,10 +17,10 @@ from oauth2client.client import flow_from_clientsecrets
 from oauth2client.client import FlowExchangeError
 
 from werkzeug.utils import secure_filename
-from catalog_setup import Base, Category, Item, User
+from model import Base, Category, Item, User
 
 
-engine = create_engine('sqlite:///musicstore.db')
+engine = create_engine('sqlite:///model/musicstore.db')
 Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
@@ -64,22 +64,27 @@ def new_item(category_name):
         price = valid_price(request.form['price'])
         if not price:
             flash("That's not a valid price")
-            return render_template('new.html', categories= categories)
+            return render_template('new.html', categories= categories,
+                category=category)
         if price and request.form['name'] and request.form['description']:
-            item = Item(name=request.form['name'], price = request.form['price'],
+            item = Item(name=request.form['name'],
+                price = request.form['price'],
             description = request.form['description'], picture = filename,
             category = category, user_id = login_session['user_id'])
         else:
             flash("Please fill out the required fields.")
-            return render_template('new.html', categories= categories)
+            return render_template('new.html', categories= categories,
+                category=category)
         flash('%s has been added' % item.name)
         session.add(item)
         category.items_val += 1
 
         session.add(category)
         session.commit()
-        return redirect(url_for('show_category', item_name = request.form['name'],
+        return redirect(url_for('show_category',
+            item_name = request.form['name'],
         category_name = category_name, sort_type = all))
     else:
-        return render_template('new.html', categories = categories)
+        return render_template('new.html', categories = categories,
+            category=category)
 

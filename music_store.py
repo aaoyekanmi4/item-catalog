@@ -18,7 +18,8 @@ from oauth2client.client import FlowExchangeError
 
 from werkzeug.utils import secure_filename
 
-from catalog_setup import Base, Category, Item, User
+from model import Base, Category, Item, User
+
 
 from handlers import show_mainJSON, show_categoryJSON, show_itemJSON
 from handlers import show_login, gconnect, create_user, get_user_info
@@ -31,7 +32,7 @@ from handlers import show_item, searchresult, new_item, edit_item, delete_item
 app = Flask(__name__)
 
 # Connect to Database and create database session
-engine = create_engine('sqlite:///musicstore.db')
+engine = create_engine('sqlite:///model/musicstore.db')
 Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
@@ -72,7 +73,6 @@ show_categoryJSON = app.route('/<string:category_name>/JSON')(show_categoryJSON)
 show_itemJSON = app.route('/<string:category_name>/<string:item_name>/JSON')(show_itemJSON)
 
 # Show Login Page
-
 show_login = app.route('/login')(show_login)
 
 # Gconnect(login through google)
@@ -99,7 +99,6 @@ new_item = app.route('/<string:category_name>/new', methods=['GET', 'POST'])(new
 
 # Edit item
 edit_item = app.route('/<string:category_name>/<string:item_name>/edit', methods=['GET', 'POST'])(edit_item)
-
 
 # Delete item
 delete_item = app.route('/<string:category_name>/<string:item_name>/delete', methods=['GET', 'POST'])(delete_item)

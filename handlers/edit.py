@@ -17,10 +17,10 @@ from oauth2client.client import flow_from_clientsecrets
 from oauth2client.client import FlowExchangeError
 
 from werkzeug.utils import secure_filename
-from catalog_setup import Base, Category, Item, User
+from model import Base, Category, Item, User
 
 
-engine = create_engine('sqlite:///musicstore.db')
+engine = create_engine('sqlite:///model/musicstore.db')
 Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
@@ -56,9 +56,11 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 def edit_item(category_name, item_name):
     item = session.query(Item).filter_by(name = item_name).one()
     categories = session.query(Category).order_by(Category.name).all()
+    category = session.query(Category).filter_by(name = category_name).one()
     if item.user_id != login_session['user_id']:
         flash("You may only edit items you have created")
-        return redirect(url_for('show_category', item_name = item_name, category_name = category_name, sort_type = 'all'))
+        return redirect(url_for('show_category', item_name = item_name,
+            category_name = category_name, sort_type = 'all'))
     if request.method == 'POST':
 
         if request.form['name']:
@@ -68,16 +70,24 @@ def edit_item(category_name, item_name):
         price = valid_price(request.form['price'])
         if not price:
             flash("That's not a valid price")
-            return render_template('edit.html', item=item, categories= categories)
+            return render_template('edit.html', item=item,
+                categories= categories,
+            category=category)
         if price and request.form['name'] and request.form['description']:
             filename = upload_file()
             item.picture = filename
             flash('%s has been edited' % item.name)
             session.add(item)
             session.commit()
-            return redirect(url_for('show_category', item_name = item_name, category_name = category_name, sort_type = 'all'))
+            return redirect(url_for('show_category', item_name = item_name,
+                category_name = category_name,
+                sort_type = 'all'))
         else:
             flash("Please fill out the required fields.")
-            return render_template('edit.html', item = item, categories = categories)
+            return render_template('edit.html', item = item,
+                categories = categories,
+                category=category)
     else:
-        return render_template('edit.html', item = item, categories = categories)
+        return render_template('edit.html', item = item,
+            categories = categories,
+            category=category)

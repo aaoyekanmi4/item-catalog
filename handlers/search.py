@@ -17,8 +17,8 @@ from oauth2client.client import flow_from_clientsecrets
 from oauth2client.client import FlowExchangeError
 
 from werkzeug.utils import secure_filename
-from catalog_setup import Base, Category, Item, User
-engine = create_engine('sqlite:///musicstore.db')
+from model import Base, Category, Item, User
+engine = create_engine('sqlite:///model/musicstore.db')
 Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
@@ -31,7 +31,8 @@ session = DBSession()
 def searchresult(search, sort_type):
     if request.method == 'POST':
         search = request.form['search']
-        return redirect(url_for('searchresult', search = search, sort_type = 'all'))
+        return redirect(url_for('searchresult', search = search,
+            sort_type = 'all'))
     items = session.query(Item).filter(Item.name.like('%' + search + '%')).all()
     if not items:
         items = session.query(Item).filter(Item.name.like('%' + search[:4] + '%')).all()
@@ -47,18 +48,33 @@ def searchresult(search, sort_type):
             items.append(pair[1])
         if 'username' not in login_session:
             return render_template('publicsearchresults.html', items = items,
-             search_count = search_count, search = search, categories = categories)
-        return render_template('searchresults.html', items = items, categories = categories, search_count = search_count, search = search)
+             search_count = search_count, search = search,
+             categories = categories, status="Login",
+            loginlink="/login")
+        return render_template('searchresults.html', items = items,
+         categories = categories, search_count = search_count,
+         search = search, status="Logout",
+            loginlink="/gdisconnect")
     elif sort_type == 'price_desc':
         items = []
         for pair in sorted(pricelist, reverse = True):
             items.append(pair[1])
         if 'username' not in login_session:
-            return render_template('publicsearchresults.html', items = items,
-            search_count = search_count, search = search, categories = categories)
-        return render_template('searchresults.html', items = items, categories = categories, search_count = search_count, search = search)
+            return render_template('publicsearchresults.html',
+            items = items, search_count = search_count, search = search,
+            categories = categories, status="Login",
+            loginlink="/login")
+        return render_template('searchresults.html', items = items,
+            categories = categories, search_count = search_count,
+            search = search, status="Logout",
+            loginlink="/gdisconnect")
     else:
         if 'username' not in login_session:
             return render_template('publicsearchresults.html', items = items,
-            search_count = search_count, search = search, categories = categories)
-        return render_template('searchresults.html', items = items, categories = categories, search_count = search_count, search = search)
+            search_count = search_count, search = search,
+            categories = categories,
+             status="Login", loginlink="/login")
+        return render_template('searchresults.html', items = items,
+            categories = categories, search_count = search_count,
+            search = search, status="Logout",
+            loginlink="/gdisconnect")

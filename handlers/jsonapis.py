@@ -2,8 +2,8 @@
 from flask import jsonify
 from sqlalchemy import create_engine, asc, func, desc
 from sqlalchemy.orm import sessionmaker
-from catalog_setup import Base, Category, Item, User
-engine = create_engine('sqlite:///musicstore.db')
+from model import Base, Category, Item, User
+engine = create_engine('sqlite:///model/musicstore.db')
 Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)

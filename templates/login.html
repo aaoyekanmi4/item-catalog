@@ -1,88 +1,62 @@
 <!DOCTYPE html>
 <html>
-<head>
-<link href="https://fonts.googleapis.com/css?family=Rock+Salt" rel="stylesheet">
-  <!--LOAD PRE-REQUISITES FOR GOOGLE SIGN IN -->
-   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js">
-  </script>
+  <head>
+    <link href="https://fonts.googleapis.com/css?family=Rock+Salt" rel="stylesheet">
+    <link rel="stylesheet" type=text/css href="{{ url_for('static', filename='style.css') }}">
+    <!--LOAD PRE-REQUISITES FOR GOOGLE SIGN IN -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js">
+    </script>
+    <script src="//apis.google.com/js/platform.js?onload=start"></script>
+  <!-- END PRE-REQUISITES FOR GOOGLE SIGN IN -->
+  </head>
+  <body>
+    <a class="navbar-brand" href="/">ROCK CENTRAL</a>
+    <div id="login-box">
+      <h1 id="word-login"> Login </h1>
+    <!-- GOOGLE PLUS SIGN IN-->
+      <div id="signInButton">
+        <span class="g-signin"
+          data-scope="openid email"
+          data-clientid="1005538803610-s6u44jnjr3lkfm65ulnh2n5lplrt4n2d.apps.googleusercontent.com"
+          data-redirecturi="postmessage"
+          data-accesstype="offline"
+          data-cookiepolicy="single_host_origin"
+          data-callback="signInCallback"
+          data-approvalprompt="force">
+        </span>
+      </div>
+      <script type="text/javascript">
+      function signInCallback(authResult) {
+      if (authResult['code']) {
+        // Hide the sign-in button now that the user is authorized
+        $('#signinButton').attr('style', 'display: none');
+        // Send the one-time-use code to the server, if the server responds, write a 'login successful' message to the web page and then redirect back to the main restaurants page
+        $.ajax({
+          type: 'POST',
+          url: '/gconnect?state={{STATE}}',
+          processData: false,
+          data: authResult['code'],
+          contentType: 'application/octet-stream; charset=utf-8',
+          success: function(result) {
+            // Handle or verify the server response if necessary.
+            if (result) {
+             setTimeout(function() {
+              window.location.href = "/";
+             }, 1000);
 
-<script src="//apis.google.com/js/platform.js?onload=start"> </script>
+          } else if (authResult['error']) {
+        console.log('There was an error: ' + authResult['error']);
+      } else {
+            $('#result').html('Failed to make a server-side call. Check your configuration and console.');
+             }
+          }
 
-<!-- END PRE-REQUISITES FOR GOOGLE SIGN IN -->
+      });
+      };
+    };
 
-
-</head>
-
-
-<body style="background-color: #030c15">
-<a class="navbar-brand" style="font-family: 'Rock Salt', cursive; color: red; text-decoration: none;" href="/">ROCK CENTRAL</a>
-<div style="display: block;
-    width: 300px;
-    height: 300px;
-    background-color: black;
-    margin:0 auto;
-    border-style: outset;
-    border-radius: 10px;
-">
-<div style="color: white;
-    font-size: 35px;
-    text-align: center;
-    padding-top: 90px;
-    margin: 0px;"> Login </div>
-<!-- GOOGLE PLUS SIGN IN-->
-
-
-          <div style="padding-left: 94px; padding-top: 50px;" id="signInButton">
-          <span class="g-signin"
-            data-scope="openid email"
-            data-clientid="1005538803610-s6u44jnjr3lkfm65ulnh2n5lplrt4n2d.apps.googleusercontent.com"
-            data-redirecturi="postmessage"
-            data-accesstype="offline"
-            data-cookiepolicy="single_host_origin"
-            data-callback="signInCallback"
-            data-approvalprompt="force">
-          </span>
-        </div>
-
-
-
-<script>
-function signInCallback(authResult) {
-  if (authResult['code']) {
-    // Hide the sign-in button now that the user is authorized
-    $('#signinButton').attr('style', 'display: none');
-    // Send the one-time-use code to the server, if the server responds, write a 'login successful' message to the web page and then redirect back to the main restaurants page
-    $.ajax({
-      type: 'POST',
-      url: '/gconnect?state={{STATE}}',
-      processData: false,
-      data: authResult['code'],
-      contentType: 'application/octet-stream; charset=utf-8',
-      success: function(result) {
-        // Handle or verify the server response if necessary.
-        if (result) {
-         setTimeout(function() {
-          window.location.href = "/";
-         }, 1000);
-
-      } else if (authResult['error']) {
-    console.log('There was an error: ' + authResult['error']);
-  } else {
-        $('#result').html('Failed to make a server-side call. Check your configuration and console.');
-         }
-      }
-
-  }); } }
-</script>
-
-
-
-<!--END GOOGLE PLUS SIGN IN -->
-
-        </div>
-        <div id="result"></div>
-<!--END FACEBOOK SIGN IN -->
-
+      </script>
+      <!--END GOOGLE PLUS SIGN IN -->
+    </div>
   </body>
-
-  </html>
+</html>

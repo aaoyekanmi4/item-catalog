@@ -5,10 +5,10 @@ from flask import session as login_session
 from sqlalchemy import create_engine, asc, func, desc
 from sqlalchemy.orm import sessionmaker
 
-from catalog_setup import Base, Category, Item, User
+from model import Base, Category, Item, User
 
 # Connect to Database and create database session
-engine = create_engine('sqlite:///musicstore.db')
+engine = create_engine('sqlite:///model/musicstore.db')
 Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
@@ -22,7 +22,8 @@ def show_main():
 
     if request.method == 'POST':
         search = request.form['search']
-        return redirect(url_for('searchresult', search = search, sort_type = 'all'))
+        return redirect(url_for('searchresult', search = search,
+            sort_type = 'all'))
     else:
         rw1categories = session.query(Category).order_by(Category.name).limit(3)
         items = []
@@ -39,7 +40,11 @@ def show_main():
         categories = session.query(Category).order_by(Category.name).all()
         if 'username' not in login_session:
             return render_template('publicmain.html',
-            categories = categories, items_row1 = items_row1, items_row2 = items_row2)
+            categories = categories, items_row1 = items_row1,
+            items_row2 = items_row2, status="Login",
+            loginlink="/login")
         else:
             return render_template('main.html',
-            categories = categories, items_row1 = items_row1, items_row2 = items_row2)
+            categories = categories, items_row1 = items_row1,
+            items_row2 = items_row2,
+            status="Logout", loginlink="/gdisconnect")
