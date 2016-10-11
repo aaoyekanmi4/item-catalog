@@ -13,7 +13,6 @@ MarkupSafe==0.23
 psycopg2==2.6.1
 pycparser==2.14
 pytz==2016.4
-pywin32==220
 requests==2.11.1
 six==1.10.0
 virtualenv==15.0.3
