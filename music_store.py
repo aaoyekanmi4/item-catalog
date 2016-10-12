@@ -32,8 +32,6 @@ import logging
 
 
 app = Flask(__name__)
-app.logger.addHandler(logging.StreamHandler(sys.stdout))
-app.logger.setLevel(logging.ERROR)
 
 # Connect to Database and create database session
 engine = create_engine('sqlite:///model/musicstore.db')
