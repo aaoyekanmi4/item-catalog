@@ -1,1 +1,1 @@
-web: gunicorn item-catalog-udacity.wsgi --log-file -
+web: gunicorn music_store:app --log-file=-
