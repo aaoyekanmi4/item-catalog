@@ -26,10 +26,14 @@ from handlers import show_login, gconnect, create_user, get_user_info
 
 from handlers import get_user_id, gdisconnect, show_main, show_category
 from handlers import show_item, searchresult, new_item, edit_item, delete_item
+import logging
+
 
 
 
 app = Flask(__name__)
+app.logger.addHandler(logging.StreamHandler(sys.stdout))
+app.logger.setLevel(logging.ERROR)
 
 # Connect to Database and create database session
 engine = create_engine('sqlite:///model/musicstore.db')
@@ -106,6 +110,7 @@ delete_item = app.route('/<string:category_name>/<string:item_name>/delete', met
 
 if __name__ == '__main__':
     app.secret_key = 'super_secret_key'
+    app.config['SESSION_TYPE'] = 'filesystem'
     app.debug = True
     app.run(host='0.0.0.0', port=5000)
 
