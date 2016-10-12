@@ -107,7 +107,6 @@ delete_item = app.route('/<string:category_name>/<string:item_name>/delete', met
 
 app.secret_key = 'super_secret_key'
 app.config['SESSION_TYPE'] = 'filesystem'
-
 if __name__ == '__main__':
 
     app.debug = True
