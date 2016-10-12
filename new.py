@@ -65,7 +65,8 @@ def new_item(category_name):
         if not price:
             flash("That's not a valid price")
             return render_template('new.html', categories= categories,
-                category=category)
+                category=category,
+            status="Logout", loginlink="/gdisconnect")
         if price and request.form['name'] and request.form['description']:
             item = Item(name=request.form['name'],
                 price = request.form['price'],
@@ -74,7 +75,8 @@ def new_item(category_name):
         else:
             flash("Please fill out the required fields.")
             return render_template('new.html', categories= categories,
-                category=category)
+                category=category,
+            status="Logout", loginlink="/gdisconnect")
         flash('%s has been added' % item.name)
         session.add(item)
         category.items_val += 1
@@ -83,8 +85,11 @@ def new_item(category_name):
         session.commit()
         return redirect(url_for('show_category',
             item_name = request.form['name'],
-        category_name = category_name, sort_type = all))
+        category_name = category_name, sort_type = all,
+            status="Logout", loginlink="/gdisconnect"))
     else:
-        return render_template('new.html', categories = categories,
-            category=category)
+        return render_template('new.html',
+            categories = categories,
+            category=category,
+            status="Logout", loginlink="/gdisconnect")
 

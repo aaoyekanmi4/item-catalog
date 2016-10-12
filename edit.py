@@ -60,7 +60,8 @@ def edit_item(category_name, item_name):
     if item.user_id != login_session['user_id']:
         flash("You may only edit items you have created")
         return redirect(url_for('show_category', item_name = item_name,
-            category_name = category_name, sort_type = 'all'))
+            category_name = category_name, sort_type = 'all',
+            status="Logout", loginlink="/gdisconnect"))
     if request.method == 'POST':
 
         if request.form['name']:
@@ -72,7 +73,8 @@ def edit_item(category_name, item_name):
             flash("That's not a valid price")
             return render_template('edit.html', item=item,
                 categories= categories,
-            category=category)
+            category=category,
+            status="Logout", loginlink="/gdisconnect")
         if price and request.form['name'] and request.form['description']:
             filename = upload_file()
             item.picture = filename
@@ -81,13 +83,16 @@ def edit_item(category_name, item_name):
             session.commit()
             return redirect(url_for('show_category', item_name = item_name,
                 category_name = category_name,
-                sort_type = 'all'))
+                sort_type = 'all',
+            status="Logout", loginlink="/gdisconnect"))
         else:
             flash("Please fill out the required fields.")
             return render_template('edit.html', item = item,
                 categories = categories,
-                category=category)
+                category=category,
+            status="Logout", loginlink="/gdisconnect")
     else:
         return render_template('edit.html', item = item,
             categories = categories,
-            category=category)
+            category=category,
+            status="Logout", loginlink="/gdisconnect")
