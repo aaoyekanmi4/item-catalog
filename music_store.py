@@ -25,7 +25,10 @@ from handlers import show_mainJSON, show_categoryJSON, show_itemJSON
 from handlers import show_login, gconnect, create_user, get_user_info
 
 from handlers import get_user_id, gdisconnect, show_main, show_category
-from handlers import show_item, searchresult, new_item, edit_item, delete_item
+from handlers import show_item, searchresult
+from new import new_item
+from delete import delete_item
+from edit import edit_item
 import logging
 
 
