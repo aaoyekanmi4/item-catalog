@@ -35,11 +35,12 @@
             'show_item', category_name = item.category.name,
              item_name = item.name)}}" class ="item-name">{{item.name}}</a></p>
             <h4>$ {{item.price}}</h4>
-            <p class="cat-link" ><a href="{{url_for(
+          </div>
+          <p class="cat-link" ><a href="{{url_for(
             'show_category', category_name =
              item.category.name, sort_type = 'all')}}">
-            see all {{item.category.name}}</a></p>
-          </div>
+            see all {{item.category.name}}</a>
+          </p>
         </div>
         {% endfor %}
       </div>
@@ -62,13 +63,14 @@
             'show_item', category_name = item.category.name,
              item_name = item.name)}}" class ="item-name">{{item.name}}</a></p>
             <h4>$ {{item.price}}</h4>
-            <p class="cat-link">
+          </div>
+          <p class="cat-link">
             <a href="
             {{url_for(
             'show_category', category_name =
              item.category.name, sort_type = 'all')}}">
-            see all {{item.category.name}}</a></p>
-          </div>
+            see all {{item.category.name}}</a>
+          </p>
         </div>
         {% endfor %}
       </div>

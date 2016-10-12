@@ -63,9 +63,10 @@ body {
 }
 
 .cat-link {
-text-align: right;
+text-align: left;
 color: white;
 padding-bottom: 0px;
+
 }
 
 .brand {
