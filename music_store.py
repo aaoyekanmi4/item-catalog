@@ -105,10 +105,11 @@ edit_item = app.route('/<string:category_name>/<string:item_name>/edit', methods
 # Delete item
 delete_item = app.route('/<string:category_name>/<string:item_name>/delete', methods=['GET', 'POST'])(delete_item)
 
+app.secret_key = 'super_secret_key'
+app.config['SESSION_TYPE'] = 'filesystem'
 
 if __name__ == '__main__':
-    app.secret_key = 'super_secret_key'
-    app.config['SESSION_TYPE'] = 'filesystem'
+
     app.debug = True
     app.run(host='0.0.0.0', port=5000)
 
