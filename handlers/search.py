@@ -30,7 +30,7 @@ session = DBSession()
 
 def searchresult(search, sort_type):
     if request.method == 'POST':
-        search = request.form['search']
+        search = request.form['search'].lower()
         return redirect(url_for('searchresult', search = search,
             sort_type = 'all'))
     items = session.query(Item).filter(Item.name.like('%' + search + '%')).all()
